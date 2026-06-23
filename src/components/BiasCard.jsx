@@ -12,7 +12,10 @@ const SEVERITY_LABEL = {
 
 export default function BiasCard({ bias, index }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+    <div
+      className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm animate-fade-slide-up"
+      style={{ animationDelay: `${index * 150}ms` }}
+    >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-3">
           <span className="text-2xl font-bold text-gray-100">#{index + 1}</span>

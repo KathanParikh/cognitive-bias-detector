@@ -1,6 +1,6 @@
 export default function UnbiasedView({ reframe, summary }) {
   return (
-    <div className="bg-violet-50 border border-violet-100 rounded-2xl p-5">
+    <div className="bg-violet-50 border border-violet-100 rounded-2xl p-5 animate-fade-slide-up" style={{ animationDelay: "100ms" }}>
       <div className="flex items-center gap-2 mb-3">
         <span className="text-violet-500 text-lg">🪞</span>
         <h3 className="font-semibold text-violet-800">Unbiased reframe</h3>

@@ -112,3 +112,18 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp 0.4s ease forwards;
+  opacity: 0;
+}
