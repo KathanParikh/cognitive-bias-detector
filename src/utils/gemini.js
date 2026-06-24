@@ -1,10 +1,6 @@
 const API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
-export async function analyzeBias(userInput) {
-  if (!API_KEY) {
-    throw new Error("Missing VITE_GROQ_API_KEY in .env.");
-  }
-
+export async function analyzeBias(userInput, category = "General") {
   const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -20,7 +16,7 @@ export async function analyzeBias(userInput) {
         },
         {
           role: "user",
-          content: `Analyze this input for cognitive biases:
+          content: `Analyze this input for cognitive biases. The category of this situation is: ${category}.
 
 "${userInput}"
 
@@ -30,7 +26,7 @@ Respond ONLY with this exact JSON structure:
     {
       "name": "Bias name",
       "severity": "high" | "medium" | "low",
-      "explanation": "2-3 sentence plain English explanation of how this bias shows up",
+      "explanation": "2-3 sentence plain English explanation of how this bias shows up in their thinking",
       "example": "One sentence concrete example from their input"
     }
   ],
@@ -45,19 +41,7 @@ Respond ONLY with this exact JSON structure:
   });
 
   const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data?.error?.message || `Groq API request failed with status ${res.status}.`);
-  }
-
-  const text = data?.choices?.[0]?.message?.content;
-  if (!text) {
-    throw new Error(data?.error?.message || "Groq returned an unexpected response.");
-  }
-
+  const text = data.choices[0].message.content;
   const clean = text.replace(/```json|```/g, "").trim();
-  try {
-    return JSON.parse(clean);
-  } catch {
-    throw new Error("Groq returned text that was not valid JSON.");
-  }
+  return JSON.parse(clean);
 }
